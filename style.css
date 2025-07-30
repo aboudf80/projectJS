@@ -39,11 +39,9 @@ h1 { text-align: center; color: #FF7043; margin-bottom: 20px; }
 .controls button:hover { background:#E64A19; }
 
 /* Counter */
-#contactCounter {
-  text-align:center; font-weight:bold; margin-bottom:15px;
-}
+#contactCounter { text-align:center; font-weight:bold; margin-bottom:15px; }
 
-/* Header */
+/* Header row */
 .contact-header {
   display: grid;
   grid-template-columns: 1fr 3fr 3fr 1.5fr;
@@ -75,11 +73,11 @@ h1 { text-align: center; color: #FF7043; margin-bottom: 20px; }
 .contact-list li .actions {
   padding:5px;
 }
-/* Highlight on hover (toggled via JS) */
+/* Hover highlight */
 .contact-list li.hovered {
-  background-color: #e3f2fd; /* light blue highlight */
+  background-color: #e3f2fd;
 }
-
+/* Actions */
 .contact-list li .actions {
   display:flex; gap:0.5rem;
 }
@@ -91,7 +89,7 @@ h1 { text-align: center; color: #FF7043; margin-bottom: 20px; }
   color: #FF7043;
 }
 
-/* No-contacts message */
+/* No‑contacts message */
 #noContactsMsg {
   text-align:center; font-style:italic; margin-top:20px;
 }
@@ -121,15 +119,11 @@ h1 { text-align: center; color: #FF7043; margin-bottom: 20px; }
   padding:8px 12px; border:none; border-radius:4px;
   cursor:pointer; font-weight:bold;
 }
-.popup-buttons button[type="submit"] {
-  background:#FF7043; color:#fff;
-}
-.popup-buttons button[type="button"] {
-  background:#ccc;
-}
+.popup-buttons button[type="submit"] { background:#FF7043; color:#fff; }
+.popup-buttons button[type="button"] { background:#ccc; }
 .popup-buttons button:hover { opacity:0.9; }
 
-/* Hide */
+/* Utility */
 .hidden { display:none; }
 
 /* Footer */
