@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- Favicon icon -->
   <link rel="icon" href="icon/favicon-16x16.png" type="image/png" />
   <title>Phone Book</title>
   <link rel="stylesheet" href="style.css" />
@@ -11,6 +12,7 @@
   <div class="container">
     <h1>My Phone Book</h1>
 
+    <!-- Top controls -->
     <div class="controls">
       <input type="text" id="searchInput" placeholder="Search contacts..." />
       <button id="addBtn">Add Contact</button>
@@ -18,8 +20,10 @@
       <button id="effectBtn">Toggle Effect</button>
     </div>
 
-    <p id="contactCounter">Total: 5 contacts</p>
+    <!-- Counter -->
+    <p id="contactCounter"></p>
 
+    <!-- Header row -->
     <ul class="contact-header">
       <li>Image</li>
       <li>Name</li>
@@ -27,86 +31,13 @@
       <li>Actions</li>
     </ul>
 
-    <ul id="contactList" class="contact-list">
-      <li 
-        data-address="IL ILLUT 16970"
-        data-email="ahmad.aboud576@gmail.com"
-        data-age="20"
-        data-notes="Professional coder"
-      >
-        <img src="pictures/Ahmad_Aboud.jpg" alt="Ahmad">
-        <span class="name">Ahmad Aboud</span>
-        <span class="phone">+972549535907</span>
-        <span class="actions">
-          <button onclick="editContact(this)">&#9998;</button>
-          <button onclick="viewContact(this)">&#8505;</button>
-          <button onclick="deleteContact(this)">&#128465;</button>
-        </span>
-      </li>
-      <li 
-        data-address="IL, Ma'alot-Tarshiha, 2101803"
-        data-email="jarayse@gmail.com"
-        data-age="30"
-        data-notes="CEO"
-      >
-        <img src="pictures/Nizar_Jarayse.jpg" alt="Nizar">
-        <span class="name">Nizar Jarayse</span>
-        <span class="phone">+972526579472</span>
-        <span class="actions">
-          <button onclick="editContact(this)">&#9998;</button>
-          <button onclick="viewContact(this)">&#8505;</button>
-          <button onclick="deleteContact(this)">&#128465;</button>
-        </span>
-      </li>
-      <li 
-        data-address="IL, Daliyat al-Karmel, 3005600"
-        data-email="zahra_halabi92@gmail.com"
-        data-age="28"
-        data-notes="Partner"
-      >
-        <img src="pictures/Zahra_Halabi.jpg" alt="Zahra">
-        <span class="name">Zahra Halabi</span>
-        <span class="phone">+972546146092</span>
-        <span class="actions">
-          <button onclick="editContact(this)">&#9998;</button>
-          <button onclick="viewContact(this)">&#8505;</button>
-          <button onclick="deleteContact(this)">&#128465;</button>
-        </span>
-      </li>
-      <li 
-        data-address="IL, Shefa-Amr, 202001"
-        data-email="aaimn98@gmail.com"
-        data-age="24"
-        data-notes="Partner"
-      >
-        <img src="pictures/Aiman_Khashan.jpg" alt="Aiman">
-        <span class="name">Aiman Khashan</span>
-        <span class="phone">+972543564203</span>
-        <span class="actions">
-          <button onclick="editContact(this)">&#9998;</button>
-          <button onclick="viewContact(this)">&#8505;</button>
-          <button onclick="deleteContact(this)">&#128465;</button>
-        </span>
-      </li>
-      <li 
-        data-address="IL, Isfiya, 3009000"
-        data-email="amar.mns.95@gmail.com"
-        data-age="25"
-        data-notes="Partner"
-      >
-        <img src="pictures/Ammar_Mansour.jpg" alt="Ammar">
-        <span class="name">Ammar Mansour</span>
-        <span class="phone">+972548150032</span>
-        <span class="actions">
-          <button onclick="editContact(this)">&#9998;</button>
-          <button onclick="viewContact(this)">&#8505;</button>
-          <button onclick="deleteContact(this)">&#128465;</button>
-        </span>
-      </li>
-    </ul>
+    <!-- Contact list (populated by JS) -->
+    <ul id="contactList" class="contact-list"></ul>
 
+    <!-- No‑contacts message -->
     <p id="noContactsMsg" class="hidden">No contacts found.</p>
 
+    <!-- Popup form (add / edit / view) -->
     <div id="popup" class="popup hidden">
       <form id="popupForm">
         <h2 id="formTitle">Add Contact</h2>
