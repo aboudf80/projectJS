@@ -192,7 +192,7 @@ const hidePopup = () => {
   editIndex = null;
 };
 
-// טיפול בשליחת הטופס – הוספה/עריכה עם בדיקת שם כפול
+// טיפול בשליחת הטופס – הוספה/עריכה עם בדיקת שם כפול ובדיקת אימייל
 popupForm.addEventListener("submit", e => {
   e.preventDefault();                      // מונע רענון אוטומטי
   const name    = formName.value.trim();
@@ -206,6 +206,11 @@ popupForm.addEventListener("submit", e => {
   // בדיקת שדות חובה
   if (!name || !phone) {
     alert("Name and Phone are required.");
+    return;
+  }
+  // בדיקת תקינות אימייל (אם הוזן)
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    alert("כתובת אימייל לא תקינה.");
     return;
   }
   // בדיקת שם כפול
