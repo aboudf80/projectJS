@@ -1,166 +1,136 @@
-"use strict"; // מצב קשוח של JS העוזר בלכידת שגיאות נפוצות במעבר בינארי
+"use strict"; // Enable strict mode for catching common errors
 
-// קבלת התייחסות לאלמנטים ב־HTML לפי מזהה
-const contactList    = document.getElementById("contactList");    // <ul> של תצוגת אנשי הקשר
-const searchInput    = document.getElementById("searchInput");    // שדה חיפוש
-const addBtn         = document.getElementById("addBtn");         // כפתור "Add Contact"
-const clearAllBtn    = document.getElementById("clearAllBtn");    // כפתור "Clear All"
-const effectBtn      = document.getElementById("effectBtn");      // כפתור החלפת ערכת צבעים
-const popup          = document.getElementById("popup");          // חלון הפופ‑אפ
-const popupForm      = document.getElementById("popupForm");      // הטופס שבתוך הפופ‑אפ
-const formTitle      = document.getElementById("formTitle");      // כותרת הפופ‑אפ ("Add"/"Edit"/"View")
-const formName       = document.getElementById("formName");       // שדה שם
-const formPhone      = document.getElementById("formPhone");      // שדה טלפון
-const formAddress    = document.getElementById("formAddress");    // שדה כתובת
-const formEmail      = document.getElementById("formEmail");      // שדה אימייל
-const formAge        = document.getElementById("formAge");        // שדה גיל
-const formNotes      = document.getElementById("formNotes");      // שדה הערות
-const formImage      = document.getElementById("formImage");      // שדה URL לתמונה
-const cancelBtn      = document.getElementById("cancelBtn");      // כפתור ביטול בפופ‑אפ
-const contactCounter = document.getElementById("contactCounter"); // תצוגת מספר אנשי הקשר
-const noContactsMsg  = document.getElementById("noContactsMsg");  // הודעת "אין אנשי קשר"
+// Get references to HTML elements by their IDs
+const contactList    = document.getElementById("contactList");    // <ul> for displaying contacts
+const searchInput    = document.getElementById("searchInput");    // Search input field
+const addBtn         = document.getElementById("addBtn");         // "Add Contact" button
+const clearAllBtn    = document.getElementById("clearAllBtn");    // "Clear All" button
+const effectBtn      = document.getElementById("effectBtn");      // Toggle color effect button
+const popup          = document.getElementById("popup");          // Popup overlay
+const popupForm      = document.getElementById("popupForm");      // Form inside the popup
+const formTitle      = document.getElementById("formTitle");      // Popup title ("Add"/"Edit"/"View")
+const formName       = document.getElementById("formName");       // Name input field
+const formPhone      = document.getElementById("formPhone");      // Phone input field
+const formAddress    = document.getElementById("formAddress");    // Address input field
+const formEmail      = document.getElementById("formEmail");      // Email input field
+const formAge        = document.getElementById("formAge");        // Age input field
+const formNotes      = document.getElementById("formNotes");      // Notes textarea
+const formImage      = document.getElementById("formImage");      // Image URL input field
+const cancelBtn      = document.getElementById("cancelBtn");      // "Cancel" button in popup
+const contactCounter = document.getElementById("contactCounter"); // Display for total contacts
+const noContactsMsg  = document.getElementById("noContactsMsg");  // "No contacts" message
 
-// מערך התחלתי של אנשי הקשר (נשמר בזיכרון JS בלבד)
+// Initial in-memory array of contact objects
 const contacts = [
-  {
-    name: "Ahmad Aboud",
-    phone: "+972549535907",
-    address: "IL ILLUT 16970",
-    email: "ahmad.aboud576@gmail.com",
-    age: "20",
-    notes: "Professional coder",
-    image: "pictures/Ahmad_Aboud.jpg"
-  },
-  {
-    name: "Nizar Jarayse",
-    phone: "+972526579472",
-    address: "IL, Ma'alot-Tarshiha, 2101803",
-    email: "jarayse@gmail.com",
-    age: "30",
-    notes: "CEO",
-    image: "pictures/Nizar_Jarayse.jpg"
-  },
-  {
-    name: "Zahra Halabi",
-    phone: "+972546146092",
-    address: "IL, Daliyat al-Karmel, 3005600",
-    email: "zahra_halabi92@gmail.com",
-    age: "28",
-    notes: "Partner",
-    image: "pictures/Zahra_Halabi.jpg"
-  },
-  {
-    name: "Aiman Khashan",
-    phone: "+972543564203",
-    address: "IL, Shefa-Amr, 202001",
-    email: "aaimn98@gmail.com",
-    age: "24",
-    notes: "Partner",
-    image: "pictures/Aiman_Khashan.jpg"
-  },
-  {
-    name: "Ammar Mansour",
-    phone: "+972548150032",
-    address: "IL, Isfiya, 3009000",
-    email: "amar.mns.95@gmail.com",
-    age: "25",
-    notes: "Partner",
-    image: "pictures/Ammar_Mansour.jpg"
-  }
+  { name: "Ahmad Aboud", phone: "+972549535907", address: "IL ILLUT 16970",
+    email: "ahmad.aboud576@gmail.com", age: "20", notes: "Professional coder",
+    image: "pictures/Ahmad_Aboud.jpg" },
+  { name: "Nizar Jarayse", phone: "+972526579472", address: "IL, Ma'alot-Tarshiha, 2101803",
+    email: "jarayse@gmail.com", age: "30", notes: "CEO",
+    image: "pictures/Nizar_Jarayse.jpg" },
+  { name: "Zahra Halabi", phone: "+972546146092", address: "IL, Daliyat al-Karmel, 3005600",
+    email: "zahra_halabi92@gmail.com", age: "28", notes: "Partner",
+    image: "pictures/Zahra_Halabi.jpg" },
+  { name: "Aiman Khashan", phone: "+972543564203", address: "IL, Shefa-Amr, 202001",
+    email: "aaimn98@gmail.com", age: "24", notes: "Partner",
+    image: "pictures/Aiman_Khashan.jpg" },
+  { name: "Ammar Mansour", phone: "+972548150032", address: "IL, Isfiya, 3009000",
+    email: "amar.mns.95@gmail.com", age: "25", notes: "Partner",
+    image: "pictures/Ammar_Mansour.jpg" }
 ];
 
-let editIndex = null;                       // מצביע למערך על הפריט שנערך (null => הוספה)
-const defaultImage = "pictures/default.jpg"; // תמונת ברירת מחדל אם אין URL
+let editIndex = null;                       // Index in the array being edited; null = add mode
+const defaultImage = "pictures/default.jpg"; // Default avatar if none provided
 
-// מוסיף לאלמנט li אירועי 'mouseover' ו-'mouseout' לשינוי רקע
+// Add hover highlight events to an <li>
 const attachHover = li => {
-  li.addEventListener("mouseover", () => li.classList.add("hovered"));  // הוסף class של הדגשה
-  li.addEventListener("mouseout",  () => li.classList.remove("hovered")); // הסר class
+  li.addEventListener("mouseover", () => li.classList.add("hovered"));
+  li.addEventListener("mouseout",  () => li.classList.remove("hovered"));
 };
 
-// מעדכן את המונה ומציג/מסתיר את ההודעה "אין אנשי קשר"
+// Update the counter and toggle the "no contacts" message
 const updateCounter = () => {
-  const lis = contactList.querySelectorAll("li"); // כל הפריטים
+  const lis = contactList.querySelectorAll("li");
   let visible = 0;
   lis.forEach(li => {
-    if (li.style.display !== "none") visible++;  // סופר רק מה שמוצג
+    if (li.style.display !== "none") visible++;
   });
-  contactCounter.textContent = 
-    `Total: ${visible} contact${visible !== 1 ? "s" : ""}`; // טקסט המונה
-  noContactsMsg.classList.toggle("hidden", visible !== 0);   // הסתר אם יש לפחות אחד
+  contactCounter.textContent =
+    `Total: ${visible} contact${visible !== 1 ? "s" : ""}`;
+  noContactsMsg.classList.toggle("hidden", visible !== 0);
 };
 
-// יוצר מחדש את כל רשימת אנשי הקשר מהמערך
+// Render the entire contact list from the `contacts` array
 const renderList = () => {
-  contactList.innerHTML = ""; // מנקה קודם כל
+  contactList.innerHTML = ""; // Clear existing items
   contacts.forEach((c, i) => {
     const li = document.createElement("li");
-    // שומר שדות נוספים ב‑data-attributes של ה‑<li>
+
+    // Store extra fields in data-attributes
     li.dataset.address = c.address;
     li.dataset.email   = c.email;
     li.dataset.age     = c.age;
     li.dataset.notes   = c.notes;
 
-    // תמונה
+    // Image element
     const img = document.createElement("img");
     img.src = c.image || defaultImage;
     img.alt = c.name;
 
-    // שם
+    // Name span
     const nameSpan = document.createElement("span");
     nameSpan.className = "name";
     nameSpan.textContent = c.name;
 
-    // טלפון
+    // Phone span
     const phoneSpan = document.createElement("span");
     phoneSpan.className = "phone";
     phoneSpan.textContent = c.phone;
 
-    // actions: כפתורי עריכה, צפייה, מחיקה
+    // Actions container
     const actions = document.createElement("span");
     actions.className = "actions";
 
-    // כפתור עריכה (✏️ = &#x270F;)
+    // Edit button (✏️ = &#x270F;)
     const editBtn = document.createElement("button");
-    editBtn.innerHTML = "&#x270F;";          // קוד הקסדצימלי של ✏
+    editBtn.innerHTML = "&#x270F;";
     editBtn.onclick   = () => showPopup(li, false);
 
-    // כפתור צפייה (ℹ️ = &#x2139;)
+    // View button (ℹ️ = &#x2139;)
     const viewBtn = document.createElement("button");
-    viewBtn.innerHTML = "&#x2139;";          // קוד הקסדצימלי של ℹ
+    viewBtn.innerHTML = "&#x2139;";
     viewBtn.onclick   = () => showPopup(li, true);
 
-    // כפתור מחיקה (🗑️ = &#x1F5D1;)
+    // Delete button (🗑️ = &#x1F5D1;)
     const delBtn = document.createElement("button");
-    delBtn.innerHTML = "&#x1F5D1;";          // קוד הקסדצימלי של 🗑
+    delBtn.innerHTML = "&#x1F5D1;";
     delBtn.onclick   = () => {
-      contacts.splice(i, 1);                 // הוצא מהמערך
-      renderList();                          // רענון התצוגה
+      contacts.splice(i, 1);
+      renderList();
     };
 
     actions.append(editBtn, viewBtn, delBtn);
     li.append(img, nameSpan, phoneSpan, actions);
-    attachHover(li);                         // הוסף הדגשת hover
-    contactList.appendChild(li);            // הדבקה ל־DOM
+    attachHover(li);
+    contactList.appendChild(li);
   });
-  updateCounter();                          // עדכון מונה
+  updateCounter();
 };
 
-// מסנן לפי שם מה שהוקלד בשדה החיפוש
+// Filter contacts by the search term
 const filterList = () => {
   const term = searchInput.value.toLowerCase();
   contactList.querySelectorAll("li").forEach(li => {
     const name = li.querySelector(".name").textContent.toLowerCase();
-    li.style.display = name.includes(term) ? "" : "none"; // show/hide
+    li.style.display = name.includes(term) ? "" : "none";
   });
-  updateCounter(); // עדכון מונה
+  updateCounter();
 };
 
-// פותח את חלון הפופ‑אפ למצב הוספה / עריכה / צפייה
+// Show popup in add/edit/view mode
 const showPopup = (li = null, readonly = false) => {
-  popup.classList.remove("hidden");        // מציג את הפופ‑אפ
+  popup.classList.remove("hidden");
   if (li) {
-    // במצב עריכה/צפייה – ממלא את השדות
     formTitle.textContent = readonly ? "View Contact" : "Edit Contact";
     formName.value    = li.querySelector(".name").textContent;
     formPhone.value   = li.querySelector(".phone").textContent;
@@ -169,32 +139,31 @@ const showPopup = (li = null, readonly = false) => {
     formAge.value     = li.dataset.age;
     formNotes.value   = li.dataset.notes;
     formImage.value   = li.querySelector("img").src;
-    // מוצא את מיקום ה‑<li> במערך ל‑editIndex
+    // Determine index for editing
     const all = Array.from(contactList.children);
     editIndex = all.indexOf(li);
   } else {
-    // במצב הוספה – אפס טופס
     formTitle.textContent = "Add Contact";
     popupForm.reset();
     editIndex = null;
   }
-  // בקרת קריאות בלבד
+  // Disable inputs in view-only mode
   popupForm.querySelectorAll("input,textarea")
     .forEach(i => i.disabled = readonly);
   popupForm.querySelector("button[type=submit]")
     .style.display = readonly ? "none" : "";
 };
 
-// סוגר את הפופ‑אפ
+// Hide the popup
 const hidePopup = () => {
   popup.classList.add("hidden");
   popupForm.reset();
   editIndex = null;
 };
 
-// טיפול בשליחת הטופס – הוספה/עריכה עם בדיקת שם כפול ובדיקת אימייל
+// Handle form submission: add/edit with duplicate-name and email validation
 popupForm.addEventListener("submit", e => {
-  e.preventDefault();                      // מונע רענון אוטומטי
+  e.preventDefault();
   const name    = formName.value.trim();
   const phone   = formPhone.value.trim();
   const address = formAddress.value.trim();
@@ -203,41 +172,41 @@ popupForm.addEventListener("submit", e => {
   const notes   = formNotes.value.trim();
   const image   = formImage.value.trim() || defaultImage;
 
-  // בדיקת שדות חובה
+  // Required fields check
   if (!name || !phone) {
     alert("Name and Phone are required.");
     return;
   }
-  // בדיקת תקינות אימייל (אם הוזן)
+  // Email format check if provided
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    alert("כתובת אימייל לא תקינה.");
+    alert("Invalid email address.");
     return;
   }
-  // בדיקת שם כפול
+  // Duplicate-name check
   for (let i = 0; i < contacts.length; i++) {
     if (contacts[i].name === name && i !== editIndex) {
       alert("Name already exists. Cannot save duplicate.");
       return;
     }
   }
-  // בניית אובייקט חדש/מעודכן
+  // Build updated contact object
   const entry = { name, phone, address, email, age, notes, image };
-  if (editIndex !== null) contacts[editIndex] = entry; // עריכה
-  else                   contacts.push(entry);          // הוספה
+  if (editIndex !== null) contacts[editIndex] = entry;
+  else                   contacts.push(entry);
 
   hidePopup();
-  renderList();                             // רענון תצוגה
+  renderList();
 });
 
-// קישור כפתורים לאירועים
-addBtn.onclick      = () => showPopup();      // הוספה
-cancelBtn.onclick   = hidePopup;              // ביטול
+// Wire up button events
+addBtn.onclick      = () => showPopup();
+cancelBtn.onclick   = hidePopup;
 clearAllBtn.onclick = () => {
-  contacts.length = 0;                        // ריקון המערך
+  contacts.length = 0;
   renderList();
 };
-searchInput.oninput = filterList;             // חיפוש חי
-effectBtn.onclick   = () => document.body.classList.toggle("fancy-effect"); // אפקט צבעים
+searchInput.oninput = filterList;
+effectBtn.onclick   = () => document.body.classList.toggle("fancy-effect");
 
-// רינדור ראשוני של הרשימה
+// Initial render on page load
 document.addEventListener("DOMContentLoaded", renderList);
