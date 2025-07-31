@@ -93,21 +93,24 @@ const renderList = () => {
 
     // Edit button (✏️ = &#x270F;)
     const editBtn = document.createElement("button");
-    editBtn.innerHTML = "&#x270F;";
+    editBtn.innerHTML = "&#x270F;&#xFE0F;"; // ✏️ with emoji VS-16
     editBtn.onclick   = () => showPopup(li, false);
 
     // View button (ℹ️ = &#x2139;)
     const viewBtn = document.createElement("button");
-    viewBtn.innerHTML = "&#x2139;";
+    viewBtn.innerHTML = "&#x2139;&#xFE0F;";  // ℹ️
     viewBtn.onclick   = () => showPopup(li, true);
 
     // Delete button (🗑️ = &#x1F5D1;)
     const delBtn = document.createElement("button");
-    delBtn.innerHTML = "&#x1F5D1;";
+    delBtn.innerHTML = "&#x1F5D1;&#xFE0F;";          // 🗑️
     delBtn.onclick   = () => {
-      contacts.splice(i, 1);
-      renderList();
-    };
+    // ask the user if they're sure, naming the contact
+    if (confirm(`Are you sure you want to delete “${c.name}”?`)) {
+    contacts.splice(i, 1);                 // remove from array
+    renderList();                          // re-render
+  }
+};
 
     actions.append(editBtn, viewBtn, delBtn);
     li.append(img, nameSpan, phoneSpan, actions);
