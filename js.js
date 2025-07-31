@@ -1,3 +1,8 @@
+/* ----------------------------------------
+   Names : 1. Ahmad Aboud | ID : 214586562
+           2. Zahra Halabi| ID : 316351063
+   Class :         Software 50/5 
+---------------------------------------- */
 "use strict"; // Enable strict mode for catching common errors
 
 // Get references to HTML elements by their IDs
