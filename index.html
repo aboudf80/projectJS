@@ -3,16 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <!-- Favicon icon -->
+  <!-- Favicon icon that appears in browser tab -->
   <link rel="icon" href="icon/favicon-16x16.png" type="image/png" />
   <title>Phone Book</title>
+  <!-- Link to external CSS file for styling -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
+    <!-- Main page title -->
     <h1>My Phone Book</h1>
 
-    <!-- Top controls -->
+    <!-- Top controls: search, add, clear, toggle effect -->
     <div class="controls">
       <input type="text" id="searchInput" placeholder="Search contacts..." />
       <button id="addBtn">Add Contact</button>
@@ -20,24 +22,27 @@
       <button id="effectBtn">Toggle Effect</button>
     </div>
 
-    <!-- Counter -->
-    <p id="contactCounter"></p>
+    <!-- Contact counter display -->
+    <p id="contactCounter">Total: 5 contacts</p>
 
-    <!-- Header row -->
+    <!-- Header row for the list -->
     <ul class="contact-header">
       <li>Image</li>
       <li>Name</li>
       <li>Phone</li>
       <li>Actions</li>
     </ul>
+    
+    <!-- Contact list: populated and updated by JavaScript -->
+    <ul id="contactList" class="contact-list">
+      <!-- Example static items (will be re-rendered) -->
+      <!-- ... -->
+    </ul>
 
-    <!-- Contact list (populated by JS) -->
-    <ul id="contactList" class="contact-list"></ul>
-
-    <!-- No‑contacts message -->
+    <!-- Message to show when no contacts are visible -->
     <p id="noContactsMsg" class="hidden">No contacts found.</p>
 
-    <!-- Popup form (add / edit / view) -->
+    <!-- Popup form for adding/editing/viewing contact -->
     <div id="popup" class="popup hidden">
       <form id="popupForm">
         <h2 id="formTitle">Add Contact</h2>
@@ -55,11 +60,13 @@
       </form>
     </div>
 
+    <!-- Footer section -->
     <footer>
       <p>&copy; 2025 Ahmad &#9747; Zahra</p>
     </footer>
   </div>
 
+  <!-- Link to external JavaScript file for interactivity -->
   <script src="js.js"></script>
 </body>
 </html>
