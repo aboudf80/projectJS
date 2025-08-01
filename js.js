@@ -3,7 +3,7 @@
            2. Zahra Halabi| ID : 316351063
    Class :         Software 50/5 
 ---------------------------------------- */
-`use strict`; // Enable strict mode for catching common errors
+"use strict"; // Enable strict mode for catching common errors
 
 // Get references to HTML elements by their IDs
 const contactList    = document.getElementById("contactList");    // <ul> for displaying contacts
@@ -218,4 +218,5 @@ effectBtn.onclick   = () => document.body.classList.toggle("fancy-effect");
 
 // Initial render on page load
 document.addEventListener("DOMContentLoaded", renderList);
+
 
