@@ -211,14 +211,17 @@ popupForm.addEventListener("submit", e => {
 addBtn.onclick      = () => showPopup();
 cancelBtn.onclick   = hidePopup;
 clearAllBtn.onclick = () => {
-  contacts.length = 0;
-  renderList();
+  if (confirm("Are you sure you want to delete ALL contacts?")) {
+    contacts.length = 0; 
+    renderList();       
+  }
 };
 searchInput.oninput = filterList;
 effectBtn.onclick   = () => document.body.classList.toggle("fancy-effect");
 
 // Initial render on page load
 document.addEventListener("DOMContentLoaded", renderList);
+
 
 
 
