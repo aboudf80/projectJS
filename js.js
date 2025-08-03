@@ -186,6 +186,10 @@ popupForm.addEventListener("submit", e => {
     alert("Name and Phone are required.");
     return;
   }
+  if (!/^[0-9+\-]+$/.test(phone)) {
+  alert("Phone number may contain only digits, '+' and '-'.");
+  return;
+  }
   // Email format check if provided
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     alert("Invalid email address.");
@@ -221,6 +225,7 @@ effectBtn.onclick   = () => document.body.classList.toggle("fancy-effect");
 
 // Initial render on page load
 document.addEventListener("DOMContentLoaded", renderList);
+
 
 
 
