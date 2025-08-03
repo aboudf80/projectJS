@@ -67,6 +67,7 @@ const updateCounter = () => {
 
 // Render the entire contact list from the `contacts` array
 const renderList = () => {
+  contacts.sort((a, b) => a.name.localeCompare(b.name));
   contactList.innerHTML = ""; // Clear existing items
   contacts.forEach((c, i) => {
     const li = document.createElement("li");
@@ -218,5 +219,6 @@ effectBtn.onclick   = () => document.body.classList.toggle("fancy-effect");
 
 // Initial render on page load
 document.addEventListener("DOMContentLoaded", renderList);
+
 
 
