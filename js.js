@@ -139,16 +139,17 @@ const filterList = () => {
 // Show popup in add/edit/view mode
 const showPopup = (li = null, readonly = false) => {
   popup.classList.remove("hidden");
+
   if (li) {
     formTitle.textContent = readonly ? "View Contact" : "Edit Contact";
-    formName.value    = li.querySelector(".name").textContent;
-    formPhone.value   = li.querySelector(".phone").textContent;
+    formName.value = li.querySelector(".name").textContent;
+    formPhone.value = li.querySelector(".phone").textContent;
     formAddress.value = li.dataset.address;
-    formEmail.value   = li.dataset.email;
-    formAge.value     = li.dataset.age;
-    formNotes.value   = li.dataset.notes;
-    formImage.value   = li.querySelector("img").src;
-    // Determine index for editing
+    formEmail.value = li.dataset.email;
+    formAge.value = li.dataset.age;
+    formNotes.value = li.dataset.notes;
+    formImage.value = li.querySelector("img").src;
+
     const all = Array.from(contactList.children);
     editIndex = all.indexOf(li);
   } else {
@@ -156,11 +157,21 @@ const showPopup = (li = null, readonly = false) => {
     popupForm.reset();
     editIndex = null;
   }
-  // Disable inputs in view-only mode
-  popupForm.querySelectorAll("input,textarea")
-    .forEach(i => i.disabled = readonly);
-  popupForm.querySelector("button[type=submit]")
-    .style.display = readonly ? "none" : "";
+
+  // Toggle input visibility and disable/enable
+  popupForm.querySelectorAll("input, textarea").forEach(field => {
+    field.disabled = readonly;
+
+    if (readonly) {
+      const isEmpty = !field.value.trim();
+      field.style.display = isEmpty ? "none" : "";
+    } else {
+      field.style.display = ""; // Always show in edit/add mode
+    }
+  });
+
+  // Hide the submit button in view-only mode
+  popupForm.querySelector("button[type=submit]").style.display = readonly ? "none" : "";
 };
 
 // Hide the popup
@@ -225,6 +236,7 @@ effectBtn.onclick   = () => document.body.classList.toggle("fancy-effect");
 
 // Initial render on page load
 document.addEventListener("DOMContentLoaded", renderList);
+
 
 
 
